@@ -9,6 +9,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 
+import PageObjects.Base_PO;
+
+import static driver.DriverFactory.createDriver;
+import static driver.DriverFactory.pegaDriver;
+import static driver.DriverFactory.limpaDriver;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.pt.Dado;
@@ -16,37 +21,15 @@ import io.cucumber.java.pt.E;
 import io.cucumber.java.pt.Entao;
 import io.cucumber.java.pt.Quando;
 
-public class Contact_UCStep {
-	
-	private WebDriver driver;
-	
-	@Before ("@cenario_principal")
-	public void setup() {
-		System.setProperty("webdriver.chrome.driver", "chromedriver/chromedriver.exe");
-		ChromeOptions chormeoptions = new ChromeOptions();
-		chormeoptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-		driver= new ChromeDriver(chormeoptions);
-		this.driver.manage().window().maximize();
-		
-	}
-	
-	@After ("@cenario_principal")
-	public void fechar() {
-		driver.quit();
-	
-	}
+public class Contact_UCStep  extends Base_PO {
+	 
+private WebDriver driver = pegaDriver();
+
 	
 	
-	public String gerandoNumeroAleatorio(int length) {
-		return RandomStringUtils.randomNumeric(length);
-	} 
-	
-	public String gerandoRandomAleatorio(int length) {
-		return RandomStringUtils.randomAlphabetic(length);
-	}
 	@Dado("esteja no site para cadastrar os dados")
 	public void esteja_no_site_para_cadastrar_os_dados() {
-	   driver.get("https://www.webdriveruniversity.com/Contact-Us/contactus.html");
+	   navegarTo_URL("https://www.webdriveruniversity.com/Contact-Us/contactus.html");
 	   
 	}
 
@@ -74,7 +57,7 @@ public class Contact_UCStep {
 		
 	}
 
-	@E("clico no botão Submit")
+	@E("clico no botao Submit")
 	public void clico_no_botão_submit() {
 	    driver.findElement(By.xpath("//*[@id=\"form_buttons\"]/input[2]")).click();
 	}
@@ -90,17 +73,17 @@ public class Contact_UCStep {
 		driver.findElement(By.xpath("//*[@id=\"contact_form\"]/input[1]")).sendKeys(string);
 	}
 
-	@Quando("em seguida escrevo o {string}")
+	@E("em seguida escrevo o {string}")
 	public void em_seguida_escrevo_o(String string) {
 		 driver.findElement(By.xpath("//*[@id=\"contact_form\"]/input[2]")).sendKeys(string);
 	}
 
-	@Quando("preencho o {string}")
+	@E("preencho o {string}")
 	public void preencho_o(String string) {
 		driver.findElement(By.xpath("//*[@id=\"contact_form\"]/input[3]")).sendKeys(string);
 	}
 
-	@Quando("Faco comentario {string}")
+	@E("Faco comentario {string}")
 	public void faco_comentario(String string) {
 
 		driver.findElement(By.xpath("//*[@id=\"contact_form\"]/textarea")).sendKeys(string);
